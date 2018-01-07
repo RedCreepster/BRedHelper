@@ -1,29 +1,31 @@
 ﻿function getAddOn(nameOrIndex)
     local name, title, notes, loadable, reason, security = GetAddOnInfo(nameOrIndex);
 
-    return {
-        ["name"] = name,
-        ["title"] = title,
-        ["notes"] = notes,
-        ["enabled"] = GetAddOnEnableState(nil, nameOrIndex) > 0,
-        ["loaded"] = IsAddOnLoaded(nameOrIndex),
-        ["loadable"] = loadable,
-        ["demand"] = IsAddOnLoadOnDemand(nameOrIndex),
-        ["reason"] = reason,
-        ["security"] = security
-    };
+    local addon = {};
+
+    addon.name = name;
+    addon.title = title;
+    addon.notes = notes;
+    addon.enabled = GetAddOnEnableState(nil, nameOrIndex) > 0;
+    addon.loaded = IsAddOnLoaded(nameOrIndex);
+    addon.loadable = loadable;
+    addon.demand = IsAddOnLoadOnDemand(nameOrIndex);
+    addon.reason = reason;
+    addon.security = security;
+
+    return addon;
 end
 
-function printAddoInnfo(addon)
-    print('name: ' .. addon['name']);
-    print('title: ' .. addon['title']);
-    print('notes: ' .. toString(addon['notes']));
-    print('enabled: ' .. toString(addon['enabled']));
-    print('loaded: ' .. toString(addon['loaded']));
-    print('loadable: ' .. toString(addon['loadable']));
-    print('demand: ' .. toString(addon['demand']));
-    print('reason: ' .. toString(addon['reason']));
-    print('security: ' .. toString(addon['security']));
+function printAddonInfo(addon)
+    print('name: ' .. addon.name);
+    print('title: ' .. addon.title);
+    print('notes: ' .. toString(addon.notes));
+    print('enabled: ' .. toString(addon.enabled));
+    print('loaded: ' .. toString(addon.loaded));
+    print('loadable: ' .. toString(addon.loadable));
+    print('demand: ' .. toString(addon.demand));
+    print('reason: ' .. toString(addon.reason));
+    print('security: ' .. toString(addon.security));
 end
 
 --- Получение списка аддонов
@@ -125,7 +127,7 @@ function createSimpleMenu(menuButton, items, selectedID, onChange, width, button
         end
     end)
     UIDropDownMenu_SetWidth(menuButton, width or 100);
-    UIDropDownMenu_SetButtonWidth(menuButton, buttonWidth or 124);
+    UIDropDownMenu_SetButtonWidth(menuButton, buttonWidth or 125);
     UIDropDownMenu_SetSelectedID(menuButton, selectedID);
     UIDropDownMenu_JustifyText(menuButton, "LEFT");
 end

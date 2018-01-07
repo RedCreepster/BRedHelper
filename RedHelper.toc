@@ -5,8 +5,9 @@
 ## Author: RedCreepster
 ## eMail: redcreepster@gmail.com
 ## DefaultState: Enabled
-## SavedVariablesPerCharacter: enabledAddOns, enableAutoCombatLog
+## SavedVariablesPerCharacter: enabledAddOns, automaticApplyAddOns
 
 utils.lua
 
+frames/AddOns.lua
 frames/AddOns.xml

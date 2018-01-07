@@ -27,7 +27,10 @@ enabledAddOns = {
     ['Instance'] = { 'RedHelper' },
 };
 
-debug = false;
+debug = true;
+
+AddOns = {};
+AddOns.__init = AddOns;
 
 local MAP_TYPES = {
     'World',
@@ -43,14 +46,16 @@ function log(...)
     end
 end
 
-function init()
+function AddOns:init()
     Frame1:SetScript('OnEvent', function(_, event)
         if event == 'PLAYER_LOGIN' then
-            run();
-            print('RedHelper loaded! For open addons window use command /rehelper')
+            AddOns:run();
+            print('RedHelper loaded! For open addons window use command /redhelper')
         elseif event == 'PLAYER_ENTERING_WORLD' then
-            if needReload() then
+            if AddOns:needReload() then
                 Frame2:Show();
+            else
+                Frame2:Hide();
             end
         end
     end);
@@ -62,13 +67,13 @@ end
 -- @param name
 -- @param enable
 --
-function createAddonItem(name, enable)
+function AddOns:createAddonItem(name, enable)
     local namePrefix = 'addon-' .. name;
 
     local addonContainer = CreateFrame('Frame', namePrefix .. '-container');
 
     local checkButton = createCheckButton(namePrefix .. '-checkbutton', addonContainer, nil, enable, { 'LEFT' });
-    local textPoint = { 'LEFT', checkButton, checkButton:GetWidth(), 0 }
+    local textPoint = { 'LEFT', checkButton, checkButton:GetWidth(), 0 };
     local text = createText(namePrefix .. '-text', addonContainer, name, textPoint);
 
     addonContainer:SetWidth(checkButton:GetWidth() + text:GetWidth());
@@ -77,7 +82,7 @@ function createAddonItem(name, enable)
     return addonContainer, checkButton, text;
 end
 
-function run()
+function AddOns:run()
     local addonFrameHeight = 23;
 
     local addonsContainer = CreateFrame('Frame', 'addons-container', ScrollFrame1);
@@ -92,9 +97,9 @@ function run()
     addonsContainer:SetWidth(ScrollFrame1:GetWidth());
 
     for index, addon in ipairs(addons) do
-        local addonName = addon['name'];
+        local addonName = addon.name;
 
-        local addonItem, checkButton = createAddonItem(addon['title'], addon['enabled']);
+        local addonItem, checkButton = AddOns:createAddonItem(addon.title, addon.enabled);
 
         addonsItemsToNames[addonItem] = addonName;
 
@@ -124,15 +129,15 @@ function run()
         end);
     end
 
-    updateCheckboxes();
+    AddOns:updateCheckboxes();
 
     createSimpleMenu(DropDownMenuTest, MAP_TYPES, 1, function(_, name)
         selectedMapType = name;
-        updateCheckboxes();
+        AddOns:updateCheckboxes();
     end);
 end
 
-function updateCheckboxes()
+function AddOns:updateCheckboxes()
     local _, addonsContainer = ScrollFrame1:GetChildren();
 
     local addonsItems = { addonsContainer:GetChildren() };
@@ -146,8 +151,8 @@ function updateCheckboxes()
     end
 end
 
-function needReload()
-    local type = getCurrentMapType();
+function AddOns:needReload()
+    local type = AddOns:getCurrentMapType();
 
     if not enabledAddOns[type] then
         return false;
@@ -156,15 +161,17 @@ function needReload()
     local addons = getAddons();
 
     for _, addon in ipairs(addons) do
-        local addonName = addon['name'];
-        local enabled = addon['enabled'];
+        local addonName = addon.name;
+        local enabled = addon.enabled;
 
         if tContains(enabledAddOns[type], addonName) then
             if not enabled then
+                log(addonName .. ' is disabled');
                 return true;
             end
         else
             if enabled then
+                log(addonName .. ' is enabled');
                 return true;
             end
         end
@@ -173,18 +180,19 @@ function needReload()
     return false;
 end
 
-function applyAddOns()
-    local type = getCurrentMapType();
+function AddOns:applyAddOns()
+    local type = AddOns:getCurrentMapType();
     local addons = getAddons();
 
     local needReload = false;
 
     for _, addon in ipairs(addons) do
-        local addonName = addon['name'];
-        local enabled = addon['enabled'];
+        local addonName = addon.name;
+        local enabled = addon.enabled;
 
         if (not enabledAddOns[type] or not tContains(enabledAddOns[type], addonName)) and enabled then
             DisableAddOn(addonName);
+            printAddonInfo(addon);
             log('Disabled ' .. addonName);
             if IsAddOnLoaded(addonName) then
                 needReload = true;
@@ -193,9 +201,9 @@ function applyAddOns()
     end
 
     for _, addon in ipairs(addons) do
-        local addonName = addon['name'];
-        local enabled = addon['enabled'];
-        local demand = addon['demand'];
+        local addonName = addon.name;
+        local enabled = addon.enabled;
+        local demand = addon.demand;
 
         if enabledAddOns[type] and tContains(enabledAddOns[type], addonName) and not enabled then
             EnableAddOn(addonName);
@@ -208,6 +216,10 @@ function applyAddOns()
         end
     end
 
+    SaveAddOns();
+
+    Frame2:Hide();
+
     if needReload then
         ReloadUI();
     end
@@ -217,7 +229,7 @@ end
 --
 -- World - Мир, Instance - Подземелье, Рейд, Поле боя, Арена, etc...
 --
-function getCurrentMapType()
+function AddOns:getCurrentMapType()
     if IsInInstance() then
         return 'Instance';
     else
