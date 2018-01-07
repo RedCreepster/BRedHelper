@@ -27,7 +27,7 @@ enabledAddOns = {
     ['Instance'] = { 'RedHelper' },
 };
 
-debug = true;
+debug = false;
 
 AddOns = {};
 AddOns.__init = AddOns;
@@ -192,7 +192,6 @@ function AddOns:applyAddOns()
 
         if (not enabledAddOns[type] or not tContains(enabledAddOns[type], addonName)) and enabled then
             DisableAddOn(addonName);
-            printAddonInfo(addon);
             log('Disabled ' .. addonName);
             if IsAddOnLoaded(addonName) then
                 needReload = true;
