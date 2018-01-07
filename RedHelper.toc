@@ -1,0 +1,12 @@
+## Interface: 70300
+## Version: 1.0
+## Title: RedHelper
+## Notes: Toggle addons for instances, raids, arenas, etc...
+## Author: RedCreepster
+## eMail: redcreepster@gmail.com
+## DefaultState: Enabled
+## SavedVariablesPerCharacter: enabledAddOns, enableAutoCombatLog
+
+utils.lua
+
+frames/AddOns.xml
