@@ -3,15 +3,35 @@
 
     local addon = {};
 
+    local playerName = UnitName("player");
+
+    local enabled = GetAddOnEnableState(playerName, nameOrIndex);
+
     addon.name = name;
     addon.title = title;
     addon.notes = notes;
-    addon.enabled = GetAddOnEnableState(nil, nameOrIndex) > 0;
+    addon.enabled = enabled > 0;
+    addon.enabledForCharacter = enabled == 1;
+    addon.enabledForRealm = enabled == 2;
     addon.loaded = IsAddOnLoaded(nameOrIndex);
     addon.loadable = loadable;
     addon.demand = IsAddOnLoadOnDemand(nameOrIndex);
     addon.reason = reason;
     addon.security = security;
+    addon.enable = function(all)
+        if all then
+            EnableAddOn(nameOrIndex, nil);
+        else
+            EnableAddOn(nameOrIndex, playerName);
+        end
+    end
+    addon.disable = function(all)
+        if all then
+            DisableAddOn(nameOrIndex, nil);
+        else
+            DisableAddOn(nameOrIndex, playerName);
+        end
+    end
 
     return addon;
 end
@@ -20,7 +40,8 @@ function printAddonInfo(addon)
     print('name: ' .. addon.name);
     print('title: ' .. addon.title);
     print('notes: ' .. toString(addon.notes));
-    print('enabled: ' .. toString(addon.enabled));
+    print('enabledForCharacter: ' .. toString(addon.enabledForCharacter));
+    print('enabledForRealm: ' .. toString(addon.enabledForRealm));
     print('loaded: ' .. toString(addon.loaded));
     print('loadable: ' .. toString(addon.loadable));
     print('demand: ' .. toString(addon.demand));
@@ -171,4 +192,25 @@ function toString(value)
     end
 
     return value;
+end
+
+function addPanel(frame, name, parent, okay, cancel, default, refresh)
+    local panel = frame;
+    panel.name = name;
+    if parent then
+        panel.parent = parent;
+    end
+    if okay then
+        panel.okay = okay
+    end
+    if cancel then
+        panel.cancel = cancel
+    end
+    if default then
+        panel.default = default
+    end
+    if refresh then
+        panel.refresh = refresh
+    end
+    InterfaceOptions_AddCategory(panel);
 end

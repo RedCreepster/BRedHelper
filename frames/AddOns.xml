@@ -1,73 +1,32 @@
-﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns="http://www.blizzard.com/wow/ui/">
-    <Frame name="Frame1" parent="UIParent" toplevel="true" hidden="true" enableMouse="true">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+    <Frame name="AddOnsFrame" hidden="true">
         <Scripts>
             <OnLoad>AddOns:init()</OnLoad>
         </Scripts>
-        <Size>
-            <AbsDimension x="450" y="500"/>
-        </Size>
-        <Anchors>
-            <Anchor point="CENTER"/>
-        </Anchors>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
-            <TileSize>
-                <AbsValue val="32"/>
-            </TileSize>
-        </Backdrop>
         <Frames>
-            <ScrollFrame name="ScrollFrame1" inherits="UIPanelScrollFrameTemplate" parent="Frame1">
-                <Size>
-                    <AbsDimension x="415" y="440"/>
-                </Size>
+            <ScrollFrame name="ScrollFrame1" inherits="UIPanelScrollFrameTemplate" parent="AddOnsFrame">
+                <Size x="590" y="520"/>
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset x="5" y="-5"/>
                     </Anchor>
                 </Anchors>
             </ScrollFrame>
-            <Button name="DropDownMenuTest" inherits="UIDropDownMenuTemplate" parent="Frame1">
-                <Size>
-                    <AbsDimension x="75" y="25"/>
-                </Size>
+            <Button name="DropDownMenuTest" inherits="UIDropDownMenuTemplate" parent="AddOnsFrame">
+                <Size x="75" y="25"/>
                 <Anchors>
                     <Anchor point="BOTTOMLEFT">
                         <Offset x="-8"/>
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Button1" inherits="UIPanelButtonTemplate" parent="Frame1" text="Apply">
-                <Scripts>
-                    <OnClick>AddOns:applyAddOns()</OnClick>
-                </Scripts>
-                <Size>
-                    <AbsDimension x="75" y="25"/>
-                </Size>
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT">
-                        <Offset x="-85" y="5"/>
-                    </Anchor>
-                </Anchors>
-            </Button>
-            <Button name="Button2" inherits="UIPanelButtonTemplate" parent="Frame1" text="Close">
-                <Scripts>
-                    <OnClick>Frame1:Hide()</OnClick>
-                </Scripts>
-                <Size>
-                    <AbsDimension x="75" y="25"/>
-                </Size>
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT">
-                        <Offset x="-5" y="5"/>
-                    </Anchor>
-                </Anchors>
-            </Button>
         </Frames>
     </Frame>
-    <Frame name="Frame2" parent="UIParent" toplevel="true" hidden="true">
-        <Size>
-            <AbsDimension x="215" y="60"/>
-        </Size>
+    <Frame name="AddOnsMapChangedChangedFrame" toplevel="true" hidden="true">
+        <Size x="215" y="60"/>
         <Anchors>
             <Anchor point="CENTER"/>
         </Anchors>
@@ -82,38 +41,35 @@
                     <Size x="215" y="25"/>
                     <Anchors>
                         <Anchor point="TOP">
-                            <Offset x="0" y="-5"/>
+                            <Offset y="-5"/>
                         </Anchor>
                     </Anchors>
                 </FontString>
             </Layer>
         </Layers>
         <Frames>
-            <Button name="Button3" inherits="UIPanelButtonTemplate" parent="Frame2" text="Change AddOns">
-                <Scripts>
-                    <OnClick>AddOns:applyAddOns()</OnClick>
-                </Scripts>
-                <Size>
-                    <AbsDimension x="125" y="25"/>
-                </Size>
+            <Button name="Button3" inherits="UIPanelButtonTemplate" parent="AddOnsMapChangedChangedFrame"
+                    text="Change AddOns">
+                <Size x="125" y="25"/>
                 <Anchors>
                     <Anchor point="BOTTOMLEFT">
                         <Offset x="5" y="5"/>
                     </Anchor>
                 </Anchors>
-            </Button>
-            <Button name="Button3" inherits="UIPanelButtonTemplate" parent="Frame2" text="Cancel">
                 <Scripts>
-                    <OnClick>Frame2:Hide()</OnClick>
+                    <OnClick>AddOns:applyAddOns()</OnClick>
                 </Scripts>
-                <Size>
-                    <AbsDimension x="75" y="25"/>
-                </Size>
+            </Button>
+            <Button name="Button3" inherits="UIPanelButtonTemplate" parent="AddOnsMapChangedChangedFrame" text="Cancel">
+                <Size x="75" y="25"/>
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT">
                         <Offset x="-5" y="5"/>
                     </Anchor>
                 </Anchors>
+                <Scripts>
+                    <OnClick>AddOnsMapChangedChangedFrame:Hide()</OnClick>
+                </Scripts>
             </Button>
         </Frames>
     </Frame>

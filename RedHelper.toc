@@ -5,9 +5,14 @@
 ## Author: RedCreepster
 ## eMail: redcreepster@gmail.com
 ## DefaultState: Enabled
-## SavedVariablesPerCharacter: enabledAddOns, automaticApplyAddOns
+## SavedVariablesPerCharacter: enabledAddOns, enableAutoRepair
 
 utils.lua
 
+RedHelper.lua
+
 frames/AddOns.lua
 frames/AddOns.xml
+
+frames/AutoRepair.lua
+frames/AutoRepair.xml
