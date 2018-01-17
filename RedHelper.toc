@@ -5,7 +5,7 @@
 ## Author: RedCreepster
 ## eMail: redcreepster@gmail.com
 ## DefaultState: Enabled
-## SavedVariablesPerCharacter: enabledAddOns, enableAutoRepair
+## SavedVariablesPerCharacter: enabledAddOns, enableAutoRepair, enableAutoSellGray
 
 utils.lua
 

@@ -37,7 +37,7 @@
         </Backdrop>
         <Layers>
             <Layer level="BACKGROUND">
-                <FontString text="Zone changed. Apply preset of AddOns?" font="GameFontNormal">
+                <FontString text="The zone type has changed. Reload addons?" font="GameFontNormal">
                     <Size x="215" y="25"/>
                     <Anchors>
                         <Anchor point="TOP">
