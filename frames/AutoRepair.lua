@@ -45,16 +45,16 @@ function AutoRepair:open()
                 if not tContains(bagSpaces, slot) then
                     local itemID = GetContainerItemID(container, slot);
                     local info = { GetItemInfo(itemID) };
-                    local link = select(2, unpack(info));
-                    local quality = select(3, unpack(info));
-                    local vendorPrice = select(11, unpack(info));
-                    local count = select(2, GetContainerItemInfo(container, slot))
+                    local quality = info[3];
+                    local vendorPrice = info[11];
+                    local count = select(2, GetContainerItemInfo(container, slot));
 
-                    if quality == 0 then
+                    if quality == 0 and vendorPrice > 0 then
                         UseContainerItem(container, slot);
                         amount = amount + vendorPrice * count;
                         soldItems = soldItems + 1;
 
+                        local link = info[2];
                         print('Sold ' .. link);
                     end
                 end
